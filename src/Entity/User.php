@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ApiResource
+ * @ApiResource(
+ *  normalizationContext={"groups"="users_read"}
+ * )
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("email", message="Email already exist.")
  */
@@ -23,13 +25,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="L'email doit être renseigné.")
      * @Assert\Email(message="L'email doit être valide."))
      */
@@ -49,7 +51,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="Prénom obligatoire.")
      * @Assert\Length(min=3, minMessage="Le prénom doit faire entre 2 et 255 caractères.",
      *                max=255, maxMessage="Le prénom doit faire entre 2 et 255 caractères.")
@@ -58,7 +60,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read","customers_read","invoices_subresource"})
+     * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
      * @Assert\NotBlank(message="Nom obligatoire.")
      * @Assert\Length(min=3, minMessage="Le nom doit faire entre 2 et 255 caractères.",
      *                max=255, maxMessage="Le nom doit faire entre 2 et 255 caractères.")
