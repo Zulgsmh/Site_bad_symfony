@@ -32,7 +32,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
-     * @Assert\NotBlank(message="L'email doit être renseigné.")
+     * @Assert\NotBlank(message="L'email doit être renseigné et être valide.")
      * @Assert\Email(message="L'email doit être valide."))
      */
     private $email;
@@ -52,18 +52,18 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
-     * @Assert\NotBlank(message="Prénom obligatoire.")
      * @Assert\Length(min=3, minMessage="Le prénom doit faire entre 2 et 255 caractères.",
      *                max=255, maxMessage="Le prénom doit faire entre 2 et 255 caractères.")
+     * @Assert\NotBlank(message="Le prénom est obligatoire.")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"invoices_read","customers_read","invoices_subresource","users_read"})
-     * @Assert\NotBlank(message="Nom obligatoire.")
      * @Assert\Length(min=3, minMessage="Le nom doit faire entre 2 et 255 caractères.",
      *                max=255, maxMessage="Le nom doit faire entre 2 et 255 caractères.")
+     * @Assert\NotBlank(message="Le nom obligatoire.")
      */
     private $lastName;
 

@@ -31,7 +31,7 @@ const Navbar = ({history}) => {
                 <ul className="navbar-nav ml-auto">
                 {!isAuthenticated && <>
                     <li className="nav-item">
-                        <NavLink to="/" className="nav-link">inscription</NavLink>
+                        <NavLink to="/register" className="nav-link">inscription</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to="/login" className="btn btn-success mr-1">Connexion</NavLink>
