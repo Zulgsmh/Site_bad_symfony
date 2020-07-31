@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Field from '../components/forms/Field';
 import UsersAPI from '../services/usersAPI';
+import { toast } from 'react-toastify';
 
 const RegisterPage = ({history}) => {
 
@@ -41,6 +42,7 @@ const RegisterPage = ({history}) => {
             await UsersAPI.create(user);
             console.log("bonjour")
             setErrors({});
+            toast.success("Votre compte à bien été créé.");
             history.replace("/login");
         } catch ({response}) {
             const {violations} = response.data;

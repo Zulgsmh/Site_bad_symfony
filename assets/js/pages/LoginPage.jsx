@@ -3,6 +3,7 @@ import AuthAPI from '../services/authAPI';
 import AuthContext from '../contexts/AuthContext';
 import Field from '../components/forms/Field';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
  const LoginPage = ({history}) => {
@@ -28,11 +29,11 @@ import { Link } from 'react-router-dom';
             const data = await AuthAPI.authenticate(credentials);
             setError(""); 
             setIsAuthenticated(true);
+            toast.success("Vous êtes connecté.")
             history.replace("/customers")
         } catch (error) {
             setError("Aucun compte ne possède cette adresse email ou alors les informations ne correspondent pas.");
         }
-        console.log(credentials);
     };
 
      return ( 

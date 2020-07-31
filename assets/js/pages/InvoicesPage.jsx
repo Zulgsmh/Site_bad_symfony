@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import Pagination from '../components/Pagination';
 import InvoicesAPI from '../services/invoicesAPI';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import TableLoader from '../components/loaders/TableLoader';
 
 const STATUS_CLASSES = {
     PAID: "success",
@@ -22,6 +24,7 @@ const InvoicesPage = (props) => {
     const[invoices, setInvoices] = useState([]);
     const[currentPage, setCurrentPage] = useState(1);
     const[search, setSearch] = useState("");
+    const[loading, setLoading] = useState(true);
     const itemsPerPage = 10;
 
     //Récupérer mes invoices 
@@ -29,8 +32,9 @@ const InvoicesPage = (props) => {
         try {
             const data = await InvoicesAPI.findAll()
             setInvoices(data);
+            setLoading(false);
         } catch (error) {
-            console.log(error.response);
+            toast.error("Erreur lors du chargement des factures.");
         }
     }
 
@@ -44,9 +48,10 @@ const InvoicesPage = (props) => {
         const originalInvoices = [...invoices];
         setInvoices(invoices.filter(invoice => invoice.id !== id));
         try {
-            await InvoicesAPI.delete(id);   
+            await InvoicesAPI.delete(id);
+            toast.success(`La facture n°${id} a bien été supprimé.`)
         } catch (error) {
-            console.log(error.response);
+            toast.error("Une erreur est survenue pendant la suppression.")
             setInvoices(originalInvoices);
         }
         
@@ -104,12 +109,12 @@ const InvoicesPage = (props) => {
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                {!loading && (<tbody>
                     {paginatedInvoices.map(invoice => 
                     <tr key={invoice.id}>
                         <td>{invoice.chrono}</td>
                         <td>
-                            <a href="#">{invoice.customer.firstName} {invoice.customer.lastName}</a>
+                            <Link to={"/customers/"+invoice.customer.id}>{invoice.customer.firstName} {invoice.customer.lastName}</Link>
                         </td>
                         <td className="text-center">{formatDate(invoice.sentAt)}</td>
                         <td className="text-center">
@@ -124,8 +129,11 @@ const InvoicesPage = (props) => {
                         </td> 
                     </tr>
                     )}  
-                </tbody>
+                </tbody>)}
             </table>
+
+            {loading && (<TableLoader/>)}
+
             <Pagination 
                 currentPage={currentPage} 
                 itemsPerPage={itemsPerPage} 
